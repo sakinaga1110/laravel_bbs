@@ -19,7 +19,7 @@
 
                         @foreach ($posts as $post)
                             <br />
-                            <a href="{{ route('show', ['id' => $post->id]) }}">
+                            <a href="{{ route('post.show', ['id' => $post->id]) }}">
                                 <div class="">
                                     <p>{{ $post->title }}</p>
                             </a>

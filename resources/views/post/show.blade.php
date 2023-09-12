@@ -52,7 +52,7 @@
 
                     <div class="row justify-content-center">
                         <div class="col-md-6"> <!-- 適切なカラムサイズを指定 -->
-                            <form method="POST" action="{{ route('show', ['id' => $post->id]) }}">
+                            <form method="POST" action="{{ route('post.show', ['id' => $post->id]) }}">
                                 @csrf
                                 <input type="hidden" name="post_id" value="{{ $post->id }}">
                                 <input type="text" name="comment" placeholder="コメントを入力" required>

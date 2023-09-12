@@ -37,7 +37,7 @@ class CommentController extends Controller
 
         // リクエストデータに 'user_id' を追加して保存
         Comment::create(array_merge($request->all(), ['user_id' => $user_id]));
-        return redirect()->route('show', ['id' => $request->post_id]);
+        return redirect()->route('post.show', ['id' => $request->post_id]);
     }
     
 
@@ -74,7 +74,7 @@ public function update(Request $request, $id)
     ]);
 
     session()->flash('success', 'コメントが更新されました。');
-    return redirect()->route('show', ['id' => $comment->post_id]);
+    return redirect()->route('post.show', ['id' => $comment->post_id]);
 }
 public function delete($id)
 {
@@ -93,6 +93,6 @@ public function delete($id)
         $comment = Comment::find($id);
         $comment->delete();
         session()->flash('success', 'コメントが削除されました。');
-        return redirect()->route('show',['id' => $comment->post_id]);
+        return redirect()->route('post.show',['id' => $comment->post_id]);
     }
 }

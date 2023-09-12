@@ -9,7 +9,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8"> <!-- col-md-6を追加 -->
             <div class="bg-white p-12">
-                <form method="post" action="{{ route('dashboard.store') }}">
+                <form method="post" action="{{ route('index.store') }}">
                     @csrf
                     <div class="form-group">
                         <label for="title">タイトル</label><p class="text-danger">※必須</p>

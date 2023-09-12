@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use SebastianBergmann\CodeCoverage\Report\Html\Index;
 use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
@@ -35,7 +35,7 @@ class PostController extends Controller
         }
     
         // ビューにデータを渡す
-        return view('dashboard', compact('posts'));
+        return view('index', compact('posts'));
     }
     
     
@@ -47,7 +47,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('/create_post');
+        return view('post.create');
     }
 
     /**
@@ -66,7 +66,7 @@ class PostController extends Controller
         session()->flash('success', '投稿が掲示されました。');
         }
 
-        return redirect()->route('dashboard');
+        return redirect()->route('index');
     }
 
     public function show($id)
@@ -81,7 +81,7 @@ class PostController extends Controller
         $comments = Comment::where('post_id', $id)->with('user')->get();
         $comments = Comment::where('post_id', $id)->orderBy('created_at', 'desc') // created_atカラムで降順にソート
         ->paginate(10);
-        return view('show', compact('post', 'comments'));
+        return view('post.show', compact('post', 'comments'));
     }
     
     
@@ -100,7 +100,7 @@ class PostController extends Controller
     public function edit(string $id)
     {
         $post = Post::find($id); 
-        return view('edit',compact('post'));
+        return view('post.edit',compact('post'));
     }
 
     /**
@@ -121,14 +121,14 @@ public function update(Request $request, $id)
     ]);
 
     session()->flash('success', '投稿が更新されました。');
-    return redirect()->route('dashboard');
+    return redirect()->route('index');
 }
 public function delete($id)
 {
     $post = Post::find($id); // 渡された ID に対応する投稿を取得
     $comments = Comment::where('post_id', $id)->with('user')->get();
 
-    return view('delete', compact('post', 'comments'));
+    return view('post.delete', compact('post', 'comments'));
 }
 
     
@@ -140,6 +140,6 @@ public function delete($id)
         $post = Post::find($id);
         $post->delete();
         session()->flash('success', '投稿が削除されました。');
-        return redirect()->route('dashboard');
+        return redirect()->route('index');
     }
 }
