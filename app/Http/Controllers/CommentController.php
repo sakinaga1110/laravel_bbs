@@ -6,16 +6,16 @@ use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    
+
     public function index($id)
-{
-   
-}
+    {
+    }
 
 
 
@@ -32,6 +32,13 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'comment' => 'required|max:255', // タイトルは必須で最大255文字まで
+        ];
+
+        // バリデーションを実行
+        $request->validate($rules);
+
         // ログインしているユーザーのIDを取得
         $user_id = Auth::user()->id;
 
@@ -39,52 +46,57 @@ class CommentController extends Controller
         Comment::create(array_merge($request->all(), ['user_id' => $user_id]));
         return redirect()->route('post.show', ['id' => $request->post_id]);
     }
-    
+
 
     /**
      * Display the specified resource.
      */
     public function show($id)
     {
-       
     }
-    
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        $comment=Comment::find($id);
-        return view('comment/edit',compact('comment'));
+
+        $comment = Comment::find($id);
+        return view('comment/edit', compact('comment'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    
-public function update(Request $request, $id)
-{
-    
-    $comment = Comment::find($id);
 
-    // リクエストデータを使用して投稿を更新
-    $comment->update([
-        'comment' => $request->input('comment'),
-    ]);
+    public function update(Request $request, $id)
+    {
+        $rules = [
+            'comment' => 'required|max:255', // タイトルは必須で最大255文字まで
+        ];
 
-    session()->flash('success', 'コメントが更新されました。');
-    return redirect()->route('post.show', ['id' => $comment->post_id]);
-}
-public function delete($id)
-{
-   
-    $comment=Comment::find($id);
-    $post = Post::find($comment->post_id); 
-    return view('comment/delete', compact('post','comment'));
-}
+        // バリデーションを実行
+        $request->validate($rules);
+        $comment = Comment::find($id);
 
-    
+        // リクエストデータを使用して投稿を更新
+        $comment->update([
+            'comment' => $request->input('comment'),
+        ]);
+
+        session()->flash('success', 'コメントが更新されました。');
+        return redirect()->route('post.show', ['id' => $comment->post_id]);
+    }
+    public function delete($id)
+    {
+
+        $comment = Comment::find($id);
+        $post = Post::find($comment->post_id);
+        return view('comment/delete', compact('post', 'comment'));
+    }
+
+
     /**
      * Remove the specified resource from storage.
      */
@@ -93,6 +105,6 @@ public function delete($id)
         $comment = Comment::find($id);
         $comment->delete();
         session()->flash('success', 'コメントが削除されました。');
-        return redirect()->route('post.show',['id' => $comment->post_id]);
+        return redirect()->route('post.show', ['id' => $comment->post_id]);
     }
 }

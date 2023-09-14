@@ -8,7 +8,6 @@ use App\Models\Post;
 
 class LikeController extends Controller
 {
-    
     public function store(Request $request)
     {
         $user_id = auth()->user()->id;
@@ -21,15 +20,21 @@ class LikeController extends Controller
         if ($existingLike) {
             // いいねが既に存在する場合、削除
             $existingLike->delete();
-            return response()->json(['message' => 'いいねが解除されました。']);
+            $message = 'いいねが解除されました。';
         } else {
             // いいねが存在しない場合、新規作成
             Like::create([
                 'user_id' => $user_id,
                 'post_id' => $post_id,
             ]);
-
-            return response()->json(['message' => 'いいねが付けられました。']);
+            $message = 'いいねが付けられました。';
         }
+
+        // いいねのカウントを再取得
+        $post = Post::find($post_id);
+        $likes = $post->likes->count();
+
+        return response()->json(['message' => $message, 'likeCount' => $likes]);
     }
+
 }

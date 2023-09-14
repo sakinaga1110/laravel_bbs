@@ -2,19 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Comment;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class UserTableSeeder extends Seeder
+class CommentTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        // ユーザーのダミーデータを生成
-        User::factory()->count(10)->create();
-        
+        Comment::factory(10)->create();
     }
 }

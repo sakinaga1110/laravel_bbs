@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Post extends Model
 {
     use HasFactory;
+    use Searchable;
     protected $fillable = [
         'title',
         'main_text',
@@ -27,4 +29,10 @@ class Post extends Model
     {
         return $this->hasMany(Like::class);
     }
+    public function likes_belongsTo()
+    {
+        return $this->belongsTo(Like::class);
+    }
+   
+
 }

@@ -2,7 +2,16 @@
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('TOP') }}
+            <br />
+            <br />
+            <p>{{ $msg }}</p>
+            <form action="/search" method="post">
+                @csrf
+                <input type="text" id="find" name="find" value="{{ $input }}" required>
+                <input type="submit" class="btn btn-info" value="検索">
+            </form>
         </h2>
+
     </x-slot>
 
     <div class="py-12">
@@ -17,27 +26,49 @@
                             </div>
                         @endif
 
+
                         @foreach ($posts as $post)
                             <br />
                             <a href="{{ route('post.show', ['id' => $post->id]) }}">
-                                <div class="">
-                                    <p>{{ $post->title }}</p>
+                                <p class="btn btn-info">{{ $post->title }}</p>
                             </a>
+                            <br/>
+                            <p class="text-primary text-right">#{{ $post->tag}}</p>
                             <div class="text-right">
                                 <!-- いいねボタン -->
-                               
-                                @if ($post->isLiked)
-                                    <button type="button" class="btn bg-danger btn_like liked"
-                                        data-post-id="{{ $post->id }}">♡</button>
-                                @else
-                                    <button type="button" class="btn btn_like"
-                                        data-post-id="{{ $post->id }}">♡</button>
+                                @if (Auth::check() && Auth::user()->name != 'Guest User')
+                                    @if ($post->isLiked)
+                                        <button type="button" class="btn bg-danger btn_like liked"
+                                            data-post-id="{{ $post->id }}">♡
+                                            {{ $post->likes->count() }}
+                                        </button>
+                                    @else
+                                        <button type="button" class="btn btn_like" data-post-id="{{ $post->id }}">♡
+                                            {{ $post->likes->count() }}
+                                        </button>
+                                    @endif
                                 @endif
                             </div>
-                            <p>投稿者: {{ $post->user->name }}</p>
+                            <br />
+                            <div style="display: flex; align-items: center;">
+                                <img src="{{ asset('storage/icons/' . $post->user->icon) }}" alt="Icon"
+                                    class="rounded-icon">
+                                <p>{{ $post->user->name }}</p>
+                            </div>
+
+                            <style>
+                                .rounded-icon {
+                                    width: 40px;
+                                    height: 40px;
+                                    border-radius: 50%;
+                                    object-fit: cover;
+                                    margin-right: 10px;
+                                    /* アイコンとユーザー名の間隔を調整 */
+                                }
+                            </style>
+
                             @if (Auth::check() && $post->user->id === Auth::id())
                                 <div class="text-right">
-                                    
                                     <a href="{{ route('edit', ['id' => $post->id]) }}" class="btn btn-primary ">編集</a>
                                     <a href="{{ route('delete', ['id' => $post->id]) }}" class="btn btn-danger">削除</a>
                                 </div>
@@ -51,9 +82,7 @@
                     {{ $posts->links() }}
                 </div>
             </div>
-
         </div>
-    </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
@@ -83,19 +112,19 @@
                             post_id: post_id,
                             _token: csrf_token
                         },
-
                         success: function(response) {
+                            console.log(response); // レスポンスをコンソールに表示してデータを確認
                             if (isLiked) {
                                 // いいねを解除した場合
                                 button.removeClass("liked");
                                 button.removeClass("bg-danger");
-                                button.text("♡");
                             } else {
                                 // いいねを付けた場合
                                 button.addClass("liked");
                                 button.addClass("bg-danger");
-                                button.text("♡");
                             }
+                            button.text("♡ " + response
+                                .likeCount); // responseからいいねの数を取得
                         },
 
                         error: function() {

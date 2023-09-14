@@ -43,7 +43,6 @@
         body {
             margin: 0;
             line-height: inherit
-            
         }
 
         hr {
@@ -699,7 +698,7 @@
         .z-10 {
             z-index: 10
         }
-        
+
 
         @media (prefers-reduced-motion: no-preference) {
             .motion-safe\:hover\:scale-\[1\.01\]:hover {
@@ -844,21 +843,30 @@
                     <a href="{{ url('/index') }}"
                         class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Index</a>
                 @else
+                    <a href="{{ route('guest.login') }}"
+                        class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">ゲストユーザーとしてログイン</a>
                     <a href="{{ route('login') }}"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">ログイン</a>
-
+                        class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">ログイン</a>
                     @if (Route::has('register'))
                         <a href="{{ route('register') }}"
                             class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">新規登録</a>
                     @endif
                 @endauth
-
             </div>
         @endif
-
-        <div class="title text-4xl font-semibold text-gray-600 dark:text-gray-400" style="font-size: 2rem;">LARAVEL掲示板</div>
+        <div class="text-center">
+            <div class="text-xl md:text-4xl lg:text-6xl xl:text-8xl font-semibold text-gray-600 dark:text-gray-400">
+                LARAVEL掲示板
+            </div>
+        </div>
 
     </div>
+</body>
+
+
+
+
+</div>
 </body>
 
 </html>

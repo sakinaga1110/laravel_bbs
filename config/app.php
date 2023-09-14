@@ -156,6 +156,8 @@ return [
     */
 
     'providers' => ServiceProvider::defaultProviders()->merge([
+        // config/app.php
+
         /*
          * Package Service Providers...
          */
@@ -163,12 +165,18 @@ return [
         /*
          * Application Service Providers...
          */
+       
+        TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
+        Laravel\Scout\ScoutServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
     ])->toArray(),
+    // config/app.php
+
+
 
     /*
     |--------------------------------------------------------------------------
@@ -183,6 +191,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Scout' => Laravel\Scout\Facades\Scout::class,
     ])->toArray(),
 
 ];

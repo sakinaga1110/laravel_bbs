@@ -4,8 +4,9 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Users>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
 class UserFactory extends Factory
 {
@@ -17,10 +18,9 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            
-                'name' => $this->faker->name,
-                'email' => $this->faker->unique()->safeEmail,
-                'password' => bcrypt('password123'), // 例として固定のパスワードを設定
-            ];
+            'name' => $this->faker->name, // ランダムな名前を生成
+            'email' => $this->faker->unique()->safeEmail, // ユニークなメールアドレスを生成
+            'password' => bcrypt('password'), // ハッシュ化されたパスワードを設定
+        ];
     }
 }
