@@ -15,7 +15,6 @@ return new class extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('post_id');
-            $table->boolean('status')->default(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->name('likes_foreign_key_1');;
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade')->name('likes_foreign_key_2');;
