@@ -100,9 +100,8 @@ class PostController extends Controller
         $user_id = auth()->user()->id;
         // ログインしたユーザーがいいねした投稿のID一覧を取得
         $likedPosts = Like::where('user_id', $user_id)->pluck('post_id')->toArray();
-
         // 各投稿にいいねの状態を設定
-        foreach ($postUserSearchResult as $post) {
+        foreach ($combinedResults as $post) {
             $isLiked = in_array($post->id, $likedPosts);
             $post->isLiked = $isLiked;
         }
